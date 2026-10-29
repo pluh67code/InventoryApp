@@ -1,0 +1,29 @@
+{
+  "name": "inventoryapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch --env-file=.env app.js",
+    "populatedb": "node --env-file=.env ./db/populatedb.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pluh67code/InventoryApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/pluh67code/InventoryApp/issues"
+  },
+  "homepage": "https://github.com/pluh67code/InventoryApp#readme",
+  "dependencies": {
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-validator": "^7.3.2",
+    "pg": "^8.23.1"
+  }
+}

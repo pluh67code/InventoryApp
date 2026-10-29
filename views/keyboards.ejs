@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poop Keys | Keyboards</title>
+</head>
+<body>
+    <p>These are le boards</p>
+    <a href="/">Back to home page</a>
+    <a href="/keyboards/add">Add a keyboard to the list</a>
+    <% for (let keyboard of keyboards) { %>
+        <br><br><br> <!--replace with real css later-->
+        <p><%= keyboard.name %> by <%= keyboard.brand %></p>
+        <p>Stock: <%= keyboard.stock %></p>
+        <p><%= keyboard.size %>% <%= keyboard.switchType %> <%= keyboard.connectionType %></p>
+        <a href="/keyboards/keyboard/<%= keyboard.id %>">More</a>
+        <a href="/keyboards/delete/<%= keyboard.id %>">Delete</a>
+    <% } %>
+</body>
+</html>

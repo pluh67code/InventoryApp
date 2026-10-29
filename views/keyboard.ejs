@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poop Keys | View Board</title>
+</head>
+<body>
+    <p><%= keyboard.name %> by <%= keyboard.brand %></p>
+    <p>Stock: <%= keyboard.stock %></p>
+    <p><%= keyboard.size %>% <%= keyboard.switchType %> <%= keyboard.connectionType %></p>
+
+    <a href="/keyboards/update/<%= keyboard.id %>">Update</a> <a href="/keyboards">Back</a>
+</body>
+</html>
