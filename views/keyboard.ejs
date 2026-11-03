@@ -10,6 +10,8 @@
     <p>Stock: <%= keyboard.stock %></p>
     <p><%= keyboard.size %>% <%= keyboard.switchType %> <%= keyboard.connectionType %></p>
 
-    <a href="/keyboards/update/<%= keyboard.id %>">Update</a> <a href="/keyboards">Back</a>
+    <a href="/keyboards/update/<%= keyboard.id %>">Update</a> 
+    <a href="/keyboards/delete/<%= keyboard.id %>">Delete</a>
+    <a href="/keyboards">Back</a>
 </body>
 </html>

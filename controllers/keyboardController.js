@@ -1,9 +1,9 @@
 import * as db from "../db/queries.js";
-
+import {validationResult, matchedData} from "express-validator";
 
 async function getKeyboards(req, res) {
     const keyboards = await db.getKeyboards();
-    res.render("keyboards", {keyboards: keyboards});
+    res.render("keyboards", {keyboards});
 }
 
 function addKeyboardGet(req, res) {
@@ -11,44 +11,53 @@ function addKeyboardGet(req, res) {
 }
 
 async function addKeyboardPost(req, res) {
-    const {name, stock, brand, size, switchType, connectionType} = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        
+    }
+    const {name, stock, brand, size, switchType, connectionType} = matchedData(req);
     await db.addKeyboard({name, stock, brand, size, switchType, connectionType});
     res.redirect("/keyboards");
 }
 
 async function deleteKeyboard(req, res) {
-    const {id} = req.params;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) ;
+
+    const {id} = matchedData(req);
     await db.deleteKeyboard(id);
     res.redirect("/keyboards");
 }
 
 async function getKeyboard(req, res) {
-    const {id} = req.params;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) ;
+    
+    const {id} = matchedData(req);
     const keyboard = await db.getKeyboard(id);
-    res.render("keyboard", {keyboard: keyboard});
+    res.render("keyboard", {keyboard});
 }
 
-function updateKeyboardGet(req, res) {
-    const {id} = req.params;
-    res.render("update", {id: id});
+async function updateKeyboardGet(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) ;
+    
+    const {id} = matchedData(req);
+    const keyboard = await db.getKeyboard(id);
+    res.render("update", {keyboard});
 }
 
 async function updateKeyboardPost(req, res) {
-    const {id} = req.params;
-    const keyboard = await db.getKeyboard(id);
-    const {name, stock, brand, size, switchType, connectionType} = req.body;
-    let newInfo = [
-        name || keyboard.name, 
-        stock || keyboard.stock, 
-        brand || keyboard.brand, 
-        size || keyboard.size, 
-        switchType || keyboard.switchType, 
-        connectionType || keyboard.connectionType
-    ];
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) ;
 
-    await db.updateKeyboard(id, newInfo);
+    const {id, name, stock, brand, size, switchType, connectionType} = matchedData(req);
+    await db.updateKeyboard(id, {name, stock, brand, size, switchType, connectionType});
     res.redirect(`/keyboards/keyboard/${id}`);
 }
+
+
+
 
 export {
     getKeyboards,

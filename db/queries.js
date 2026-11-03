@@ -1,7 +1,9 @@
 import pool from "./pool.js";
 
+const keyboardColumns = `id, name, stock, brand, size, switch_type AS "switchType", connection_type AS "connectionType"`;
+
 async function getKeyboards() {
-    const {rows} = await pool.query("SELECT * FROM keyboards");
+    const {rows} = await pool.query(`SELECT ${keyboardColumns} FROM keyboards`);
     return rows;
 }
 
@@ -17,12 +19,15 @@ async function deleteKeyboard(id) {
 }
 
 async function getKeyboard(id) {
-    const {rows} = await pool.query("SELECT * FROM keyboards WHERE id = $1", [id]);
+    const {rows} = await pool.query(`SELECT ${keyboardColumns} FROM keyboards WHERE id = $1`, [id]);
     return rows[0];
 }
 
-async function updateKeyboard(id, newInfo) {
-    await pool.query("UPDATE keyboards SET name=$1, stock=$2, brand=$3, size=$4, switch_type=$5, connection_type=$6", newInfo);
+async function updateKeyboard(id, keyboard) {
+    await pool.query(
+        "UPDATE keyboards SET name=$1, stock=$2, brand=$3, size=$4, switch_type=$5, connection_type=$6 WHERE id = $7",
+        [keyboard.name, keyboard.stock, keyboard.brand, keyboard.size, keyboard.switchType, keyboard.connectionType, id]
+    );
 }
 
 export {
