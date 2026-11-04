@@ -13,7 +13,7 @@ function addKeyboardGet(req, res) {
 async function addKeyboardPost(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        
+        return res.status(400).render("add", {errors: errors.array(), keyboard: req.body});
     }
     const {name, stock, brand, size, switchType, connectionType} = matchedData(req);
     await db.addKeyboard({name, stock, brand, size, switchType, connectionType});
@@ -21,27 +21,18 @@ async function addKeyboardPost(req, res) {
 }
 
 async function deleteKeyboard(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) ;
-
     const {id} = matchedData(req);
     await db.deleteKeyboard(id);
     res.redirect("/keyboards");
 }
 
 async function getKeyboard(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) ;
-    
     const {id} = matchedData(req);
     const keyboard = await db.getKeyboard(id);
     res.render("keyboard", {keyboard});
 }
 
 async function updateKeyboardGet(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) ;
-    
     const {id} = matchedData(req);
     const keyboard = await db.getKeyboard(id);
     res.render("update", {keyboard});
@@ -49,7 +40,12 @@ async function updateKeyboardGet(req, res) {
 
 async function updateKeyboardPost(req, res) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) ;
+    if (!errors.isEmpty()) {
+        return res.status(400).render("update", {
+            errors: errors.array(),
+            keyboard: {...req.body, id: req.params.id}
+        })
+    }
 
     const {id, name, stock, brand, size, switchType, connectionType} = matchedData(req);
     await db.updateKeyboard(id, {name, stock, brand, size, switchType, connectionType});

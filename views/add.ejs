@@ -4,39 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poop Keys | Add Keyboard</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <form action="/keyboards/add" method="post">
-        <label for="name">Name: </label>
-        <input type="text" id="name" name="name" required maxlength="50">
+    <header class="site-header"><a href="/">Poop Keys</a></header>
+    <main class="container narrow">
+        <section class="card">
+            <h1>Add Keyboard</h1>
+            <% const keyboard = locals.keyboard || {}; %>
+            <% if (locals.errors) { %>
+                <ul class="errors">
+                    <% errors.forEach(err => { %>
+                        <li><%= err.msg %></li>
+                    <% }) %>
+                </ul>
+            <% } %>
 
-        <label for="stock">Stock: </label>
-        <input type="number" id="stock" name="stock" required min="0" max="10000" step="1">
+            <form action="/keyboards/add" method="post" class="form">
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name" required maxlength="50" value="<%= keyboard.name ?? '' %>">
 
-        <label for="brand">brand: </label>
-        <input type="text" id="brand" name="brand" required maxlength="50">
+                <label for="stock">Stock: </label>
+                <input type="number" id="stock" name="stock" required min="0" max="10000" step="1" value="<%= keyboard.stock ?? '' %>">
 
-        <label for="size">size (%): </label>
-        <select id="size" name="size">
-            <option value="60">60%</option>
-            <option value="75">75%</option>
-            <option value="80">80%</option>
-            <option value="100">100%</option>
-        </select>
+                <label for="brand">brand: </label>
+                <input type="text" id="brand" name="brand" required maxlength="50" value="<%= keyboard.brand ?? '' %>">
 
-        <label for="switchType">Switch type: </label>
-        <select id="switchType" name="switchType">
-            <option value="thocky">thocky</option>
-            <option value="silent">silent</option>
-        </select>
+                <label for="size">size (%): </label>
+                <select id="size" name="size">
+                    <% [60, 75, 80, 100].forEach(size => { %>
+                        <option value="<%= size %>" <%= keyboard.size == size ? "selected" : "" %>><%= size %>%</option>
+                    <% }) %>
+                </select>
 
-        <label for="connectionType">connection type: </label>
-        <select id="connectionType" name="connectionType">
-            <option value="wired">wired</option>
-            <option value="wireless">wireless</option>
-        </select>
+                <label for="switchType">Switch type: </label>
+                <select id="switchType" name="switchType">
+                    <% ["thocky", "silent"].forEach(switchType => { %>
+                        <option value="<%= switchType %>" <%= keyboard.switchType === switchType ? "selected" : "" %>><%= switchType %></option>
+                    <% }) %>
+                </select>
 
-        <button type="submit">Add Keyboard</button>
-    </form>
+                <label for="connectionType">connection type: </label>
+                <select id="connectionType" name="connectionType">
+                    <% ["wired", "wireless"].forEach(connectionType => { %>
+                        <option value="<%= connectionType %>" <%= keyboard.connectionType === connectionType ? "selected" : "" %>><%= connectionType %></option>
+                    <% }) %>
+                </select>
+
+                <div class="actions">
+                    <button class="btn btn-primary" type="submit">Add Keyboard</button>
+                    <a class="btn" href="/keyboards">Back</a>
+                </div>
+            </form>
+        </section>
+    </main>
 </body>
 </html>

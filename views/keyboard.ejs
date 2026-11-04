@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poop Keys | View Board</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <p><%= keyboard.name %> by <%= keyboard.brand %></p>
-    <p>Stock: <%= keyboard.stock %></p>
-    <p><%= keyboard.size %>% <%= keyboard.switchType %> <%= keyboard.connectionType %></p>
+    <header class="site-header"><a href="/">Poop Keys</a></header>
+    <main class="container narrow">
+        <article class="card">
+            <h1><%= keyboard.name %></h1>
+            <p class="subtitle">by <%= keyboard.brand %></p>
+            <div class="tags">
+                <span class="tag"><%= keyboard.size %>%</span>
+                <span class="tag"><%= keyboard.switchType %></span>
+                <span class="tag"><%= keyboard.connectionType %></span>
+            </div>
+            <p>Stock: <%= keyboard.stock %></p>
 
-    <a href="/keyboards/update/<%= keyboard.id %>">Update</a> 
-    <a href="/keyboards/delete/<%= keyboard.id %>">Delete</a>
-    <a href="/keyboards">Back</a>
+            <div class="actions">
+                <a class="btn btn-primary" href="/keyboards/update/<%= keyboard.id %>">Update</a>
+                <a class="btn btn-danger" href="/keyboards/delete/<%= keyboard.id %>">Delete</a>
+                <a class="btn" href="/keyboards">Back</a>
+            </div>
+        </article>
+    </main>
 </body>
 </html>

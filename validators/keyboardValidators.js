@@ -1,4 +1,4 @@
-import {body, param} from "express-validator";
+import {body, param, validationResult} from "express-validator";
 import * as db from "../db/queries.js";
 
 
@@ -28,12 +28,23 @@ const validateFormInput = [
 ];
 
 const validateId = [
-    param("id").isInt({min: 1}).withMessage("Invalid book id").bail()
+    param("id").isInt({min: 1}).withMessage("Invalid keyboard id").bail()
     .custom(async (id) => {
-        const keyboard = db.getKeyboard(id);
-        if (!keyboard) throw new Error(`Keyboard not found, id: ${id}`);
+        const keyboard = await db.getKeyboard(id);
+        if (!keyboard) throw new Error(`Keyboard not found`);
     })
     .toInt(),
+
+    // bad/missing id → 404 via the error middleware in app.js
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const error = new Error(errors.array()[0].msg);
+            error.statusCode = 404;
+            throw error;
+        }
+        next();
+    },
 ];
 
 export {
